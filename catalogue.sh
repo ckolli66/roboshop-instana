@@ -4,11 +4,13 @@ dnf install nodejs -y
 
 useradd roboshop
 
-mkdir /app
+
 # shellcheck disable=SC2164
 
 cp catalogue.service /etc/systemd/system/catalogue.service
 cp mongo.repo /etc/yum.repos.d/mongo.repo
+
+mkdir /app
 cd /app
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
 unzip /tmp/catalogue.zip
