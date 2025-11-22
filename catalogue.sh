@@ -17,7 +17,7 @@ unzip /tmp/catalogue.zip
 
 npm install
 
-
+systemctl daemon-reload
 dnf install mongodb-mongosh -y
 mongosh --host mongodb-dev.chanakyakolli.online </app/db/master-data.js
 
