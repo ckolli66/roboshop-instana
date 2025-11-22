@@ -6,15 +6,15 @@ useradd roboshop
 
 mkdir /app
 # shellcheck disable=SC2164
-cd /app
+
 cp catalogue.service /etc/systemd/system/catalogue.service
 cp mongo.repo /etc/yum.repos.d/mongo.repo
-
+cd /app
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
 unzip /tmp/catalogue.zip
 
 npm install
-systemctl daemon-reload
+
 
 dnf install mongodb-mongosh -y
 mongosh --host mongodb-dev.chanakyakolli.online </app/db/master-data.js
