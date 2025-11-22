@@ -7,15 +7,13 @@ useradd roboshop
 mkdir /app
 # shellcheck disable=SC2164
 cd /app
+cp catalogue.service /etc/systemd/system/catalogue.service
+cp mongo.repo /etc/yum.repos.d/mongo.repo
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
 unzip /tmp/catalogue.zip
 
 npm install
-
-cp catalogue.service /etc/systemd/system/catalogue.service
-cp mongo.repo /etc/yum.repos.d/mongo.repo
-
 systemctl daemon-reload
 
 dnf install mongodb-mongosh -y
