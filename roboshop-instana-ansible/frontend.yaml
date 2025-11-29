@@ -1,0 +1,36 @@
+name: Frontend Setup
+hosts: all
+become: true
+tasks:
+  - name: Install Nginx 1.24
+    ansible.builtin.dnf:
+      name: '@nginx:1.24'
+      state: present
+  - name: Remove html directory
+    ansible.builtin.file:
+      path: /usr/share/nginx/html/*
+      state: absent
+  - name: Copy Html directory
+    ansible.builtin.copy:
+      src: nginx.conf
+      dest: /etc/nginx/nginx.conf
+  - name: Run a command from within a specific directory
+    ansible.builtin.shell:
+      args:
+        chdir: "/usr/share/nginx/html"
+  - name: Download frontend code form the web
+    ansible.builtin.get_url:
+      url: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip #Getting the frontend code
+      dest: /tmp/frontend.zip
+      mode: '0440'
+  - name: Unzip a file on a Windows host
+    community.windows.win_unzip:
+      src: /tmp/frontend.zip  # Absolute path to the zip file on the Windows host
+      dest: /tmp/ # Destination directory on the Windows host
+      delete_archive: true        # Optionally remove the archive after extraction
+  - name: enable NGINX service
+    ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes
+
