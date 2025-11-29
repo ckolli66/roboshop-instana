@@ -6,10 +6,10 @@ cp shipping.service /etc/systemd/system/shipping.service
 useradd roboshop
 
 mkdir /app
-# shellcheck disable=SC2164
-cd /app
 
 curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip
+# shellcheck disable=SC2164
+cd /app
 unzip /tmp/shipping.zip
 
 # shellcheck disable=SC2164
