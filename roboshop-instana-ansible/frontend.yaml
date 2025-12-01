@@ -6,31 +6,31 @@ tasks:
     ansible.builtin.dnf:
       name: '@nginx:1.24'
       state: present
+
   - name: Remove html directory
     ansible.builtin.file:
       path: /usr/share/nginx/html/*
       state: absent
+
   - name: Copy Html directory
     ansible.builtin.copy:
       src: nginx.conf
       dest: /etc/nginx/nginx.conf
+
   - name: Run a command from within a specific directory
     ansible.builtin.shell:
       args:
         chdir: "/usr/share/nginx/html"
-  - name: Download frontend code form the web
-    ansible.builtin.get_url:
-      url: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip #Getting the frontend code
-      dest: /tmp/frontend.zip
-      mode: '0440'
-  - name: Unzip a file on a Windows host
-    community.windows.win_unzip:
-      src: /tmp/frontend.zip  # Absolute path to the zip file on the Windows host
-      dest: /tmp/ # Destination directory on the Windows host
-      delete_archive: true        # Optionally remove the archive after extraction
+
+  - name : Download Source code
+    ansible.builtin.unarchive:
+      src: https://roboshop-artifacts.s3.amazonaws.com/frontend-v3.zip
+      dest: /usr/share/nginx/html
+      remote_src: yes
+
   - name: enable NGINX service
     ansible.builtin.service:
         name: nginx
-        state: started
-        enabled: yes
+        state: restarted
+        enabled: true
 
