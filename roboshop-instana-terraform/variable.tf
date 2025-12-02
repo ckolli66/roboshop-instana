@@ -15,16 +15,16 @@ variable "zone_id" {
 }
 
 variable "instances" {
-  default = [ "frontend" ,
-    "mongodb",
-    "catalogue",
-    "redis",
-    "user",
-    "cart",
-    "shipping",
-    "payment",
-    "mysql",
-    "rabbitmq",
-    "dispatch"
-  ]
+  default = {
+    frontend = " "
+    mongodb = " "
+    catalogue = " "
+    redis = " "
+    user = " "
+    cart = " "
+    shipping = " "
+    payment = " "
+    mysql = " "
+    rabbitmq = " "
+  }
 }
