@@ -1,17 +1,20 @@
-resource "aws_instance" "frontend" {
-  ami           = "ami-09c813fb71547fc4f"
-  instance_type = "t3.small"
-  vpc_security_group_ids = [ "sg-099eff6e665cecd4a" ]
+resource "aws_instance" "instances" {
+  count = 10
+  ami           = var.ami
+  instance_type = var.instance_type
+  vpc_security_group_ids = var.vpc_security_group_ids
 
   tags = {
-    Name = "frontend"
+    Name = var.instances[count.index]
   }
 }
 
-resource "aws_route53_record" "frontend" {
-  zone_id = "Z06404431NXHJ1IDZF7W2"
-  name    = "frontend-dev"
+resource "aws_route53_record" "records" {
+  count = 10
+  zone_id = var.zone_id
+  name    = "${var.instances[count.index]}-dev"
   type    = "A"
   ttl     = 5
-  records = [aws_instance.frontend.private_ip]
+  records = [aws_instance.instances[count.index].private_ip]
 }
+
