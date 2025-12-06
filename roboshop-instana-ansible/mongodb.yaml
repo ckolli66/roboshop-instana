@@ -9,7 +9,7 @@
 
 ---
 
-- name: Monodb Setup
+- name: Mongodb Setup
   hosts: all
   become: true
   tasks:
@@ -23,10 +23,10 @@
         state: present
     - name: Replacing IP address
       ansible.builtin.replace:
-        path: /etc/mongod.conf
+        path: /etc/mongodb.conf
         regexp: '127.0.0.1'
         replace: '0.0.0.0'
-    - name: Restarting mongod service
+    - name: Restarting mongodb service
       ansible.builtin.service:
         name: mongodb
         state: restarted
