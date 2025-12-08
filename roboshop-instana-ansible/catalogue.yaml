@@ -1,0 +1,93 @@
+#dnf module disable nodejs -y
+#dnf module enable nodejs:20 -y
+#dnf install nodejs -y
+#
+#
+#cp catalogue.service /etc/systemd/system/catalogue.service
+#cp mongo.repo /etc/yum.repos.d/mongo.repo
+#useradd roboshop
+#
+#
+#  # shellcheck disable=SC2164
+#
+#
+#mkdir /app
+#cd /app
+#curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+#unzip /tmp/catalogue.zip
+#
+#npm install
+#
+#systemctl daemon-reload
+#dnf install mongodb-mongosh -y
+#mongosh --host 100.28.228.217 </app/db/master-data.js
+#
+#systemctl enable catalogue
+#systemctl restart catalogue
+
+---
+
+- name: Catalogue Setup
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Nginx 1.24
+      ansible.builtin.dnf:
+        name: '@nginx:1.24'
+        state: present
+
+    - name: Copy catalogue service
+      ansible.builtin.copy:
+        src: catalogue.service
+        dest: /etc/systemd/system/catalogue.service
+
+    - name: Copy mongo repo file
+      ansible.builtin.copy:
+        src: mongo.repo
+        dest: /etc/yum.repos.d/mongo.repo
+
+    - name: Create a user roboshop
+      ansible.builtin.user:
+        name: roboshop
+
+    - name: Create app directory
+      ansible.builtin.file:
+        path: /app
+        state: directory
+
+    - name: Change the working directory
+      ansible.builtin.command: ls -ltr
+      args:
+        chdir: app/
+
+    - name: Download and extract app content
+      ansible.builtin.unarchive:
+        src: https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip
+        dest: /app
+        remote_src: yes
+
+    - name: Install packages based on package.json.
+      community.general.npm:
+        path: /app
+
+    - name: Install mongodb
+      ansible.builtin.dnf:
+        name: mongodb-mongosh
+        state: present
+
+    - name: Load master data into MongoDB
+      ansible.builtin.command:
+        argv:
+          - mongosh
+          - --host
+          - "mongodb-dev.chanakyakolli.online"
+          - --file
+          - "/app/db/master-data.js"
+
+    - name: Start nginx service
+      ansible.builtin.systemd_service:
+        state: restarted
+        name: catalogue
+        enabled: true
+        daemon-reload: yes
+
