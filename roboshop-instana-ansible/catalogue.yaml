@@ -89,5 +89,5 @@
         state: restarted
         name: catalogue
         enabled: true
-        daemon-reload: yes
+        daemon_reload: true
 
