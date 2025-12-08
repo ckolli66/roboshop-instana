@@ -33,7 +33,7 @@
     - name: Copying user service file
       ansible.builtin.copy:
         src: user.service
-        dest: /etc/systemed/system/user.service
+        dest: /etc/systemd/system/user.service
 
     - name: Creating user
       ansible.builtin.user:
