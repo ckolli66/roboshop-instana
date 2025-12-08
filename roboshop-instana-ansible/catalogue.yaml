@@ -58,7 +58,7 @@
     - name: Change the working directory
       ansible.builtin.command: ls -ltr
       args:
-        chdir: app/
+        chdir: /app/
 
     - name: Download and extract app content
       ansible.builtin.unarchive:
