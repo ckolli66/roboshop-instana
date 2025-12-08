@@ -33,7 +33,7 @@
   tasks:
     - name: Install Nginx 1.24
       ansible.builtin.dnf:
-        name: '@nginx:1.24'
+        name:  'nodejs:20'
         state: present
 
     - name: Copy catalogue service
@@ -58,7 +58,7 @@
     - name: Change the working directory
       ansible.builtin.command: ls -ltr
       args:
-        chdir: /app/
+        chdir: /app
 
     - name: Download and extract app content
       ansible.builtin.unarchive:
