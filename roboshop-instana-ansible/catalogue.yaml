@@ -83,8 +83,9 @@
           - "mongodb-dev.chanakyakolli.online"
           - --file
           - "/app/db/master-data.js"
-        register: mongo_output
-        failed_when: "'E11000 duplicate key error' not in mongo_output.stderr and mongo_output.rc != 0"
+      register: mongo_output
+      failed_when: > 
+        ('E11000 duplicate key error' not in mongo_output.stderr) and (mongo_output.rc != 0)
 
     - name: Start nginx service
       ansible.builtin.systemd_service:
