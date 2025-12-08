@@ -31,9 +31,9 @@
   hosts: all
   become: true
   tasks:
-    - name: Install Nginx 1.24
+    - name: Install Nodejs
       ansible.builtin.dnf:
-        name:  'nodejs:20'
+        name: 'nodejs:20'
         state: present
 
     - name: Copy catalogue service
