@@ -14,6 +14,10 @@ variable "zone_id" {
   default = "Z06404431NXHJ1IDZF7W2"
 }
 
+variable "record_type" {
+  default = "A"
+}
+
 variable "instances" {
   default = {
     frontend = " "
