@@ -5,5 +5,6 @@
     <mapping directory="$PROJECT_DIR$/roboshop-ansible-roles-v1" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/roboshop-terraform-final-v1" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/roboshop-terraform-v4" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/tf-alb-asg-v1" vcs="Git" />
   </component>
 </project>
